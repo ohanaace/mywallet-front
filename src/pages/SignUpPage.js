@@ -14,21 +14,14 @@ export default function SignUpPage() {
 
   function submitSingUp(e) {
     e.preventDefault()
-    if(password !== confPassword){
+    if (password !== confPassword) {
       alert("'Senha' e 'Confirme A Senha' precisam ser idênticos.")
       return
     }
-    const body = {name, email, password}
-    const REACT_APP_API_URL = env.REACT_APP_API_URL
-   axios.post(`${REACT_APP_API_URL}/cadastro`, body)
-    .then((res) => {
-      console.log(res.data)
-     // navigate("/")
-    })
-    .catch(err => {
-      console.log(err.message)
-      alert(err.response.data)
-    })
+    const body = { name, email, password }
+    axios.post(`${env.REACT_APP_API_URL}/cadastro`, body)
+      .then(() => navigate("/"))
+      .catch(err => alert(err.response.data))
   }
   return (
     <SingUpContainer>

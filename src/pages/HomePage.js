@@ -5,9 +5,9 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 export default function HomePage() {
   return (
     <HomeContainer>
-      <Header>
+      <Header data-test="user-name">
         <h1>Olá, Fulano</h1>
-        <BiExit />
+        <BiExit data-test="logout"/>
       </Header>
 
       <TransactionsContainer>
@@ -15,33 +15,33 @@ export default function HomePage() {
           <ListItemContainer>
             <div>
               <span>30/11</span>
-              <strong>Almoço mãe</strong>
+              <strong data-test="registry-name">Almoço mãe</strong>
             </div>
-            <Value color={"negativo"}>120,00</Value>
+            <Value color={"negativo"} data-test="registry-amount">120,00</Value>
           </ListItemContainer>
 
           <ListItemContainer>
             <div>
               <span>15/11</span>
-              <strong>Salário</strong>
+              <strong data-test="registry-name">Salário</strong>
             </div>
-            <Value color={"positivo"}>3000,00</Value>
+            <Value color={"positivo"} data-test="registry-amount">3000,00</Value>
           </ListItemContainer>
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={"positivo"} data-test="total-amount" >2880,00</Value>
         </article>
       </TransactionsContainer>
 
 
       <ButtonsContainer>
-        <button>
+        <button data-test="new-income">
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button>
+        <button data-test="new-expense">
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>

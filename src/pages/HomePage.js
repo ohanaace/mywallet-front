@@ -1,13 +1,18 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { useContext, useState } from "react"
+import { UserContext } from "../context/logInContext"
 
 export default function HomePage() {
+  const [transactions, setTransactions] = useState([])
+  const { onlineUser } = useContext(UserContext)
+  console.log(onlineUser)
   return (
     <HomeContainer>
       <Header data-test="user-name">
-        <h1>Olá, Fulano</h1>
-        <BiExit data-test="logout"/>
+        <h1>Olá, {onlineUser.name}</h1>
+        <BiExit data-test="logout" />
       </Header>
 
       <TransactionsContainer>

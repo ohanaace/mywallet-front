@@ -25,18 +25,28 @@ export default function HomePage() {
         setAmount(total)
       })
       .catch(err => {
-        if (err.statusCode === 409) {
-          alert("Faça login novamente")
+        if (err.statusCode === 401) {
+          alert("Faça login.")
           navigate("/")
         }
         alert(err.response.data)
       })
   }, [])
+
+  function logout(){
+    axios.delete(`${env.REACT_APP_API_URL}/logout`, config)
+    .then(res => {
+      localStorage.removeItem("user")
+      alert(res.data)
+      navigate("/")
+    })
+    .catch(err => console.log(err.response.data))
+  }
   return (
     <HomeContainer>
       <Header data-test="user-name">
         <h1>Olá, {onlineUser.name}</h1>
-        <BiExit data-test="logout" />
+        <BiExit data-test="logout" onClick={logout} />
       </Header>
 
       <TransactionsContainer>
@@ -51,7 +61,7 @@ export default function HomePage() {
 
         <TotalArticle>
           <strong>Saldo</strong>
-          <Value color={"positivo"} data-test="total-amount" >{amount}</Value>
+          <Value color={amount} data-test="total-amount" >{amount}</Value>
         </TotalArticle>
       </TransactionsContainer>
 
@@ -95,9 +105,6 @@ const TransactionsContainer = styled.article`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  ul{
-    
-  }  
 `
 const List = styled.ul`
     height: 350px;
@@ -120,14 +127,12 @@ height: 50px;
     font-weight: 700;
     text-transform: uppercase;
   }
-  
 `
 const ButtonsContainer = styled.section`
   margin-top: 15px;
   margin-bottom: 0;
   display: flex;
   gap: 15px;
-  
   button {
     width: 50%;
     height: 115px;
@@ -144,5 +149,5 @@ const ButtonsContainer = styled.section`
 const Value = styled.div`
   font-size: 16px;
   text-align: right;
-  color: ${(props) => (props.color === "positivo" ? "green" : "red")};
+  color: ${(props) => (props.color >= 0? "green" : "red")};
 `

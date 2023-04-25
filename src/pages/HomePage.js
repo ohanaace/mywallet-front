@@ -6,7 +6,7 @@ import { UserContext } from "../context/logInContext"
 import axios from "axios"
 import env from "../env"
 import ItemContainer from "../components/ListItemContainer"
-import { useNavigate } from "react-router-dom"
+import { useNavigate} from "react-router-dom"
 
 
 export default function HomePage() {
@@ -33,14 +33,20 @@ export default function HomePage() {
       })
   }, [])
 
-  function logout(){
+  function logout() {
     axios.delete(`${env.REACT_APP_API_URL}/logout`, config)
-    .then(res => {
-      localStorage.removeItem("user")
-      alert(res.data)
-      navigate("/")
-    })
-    .catch(err => console.log(err.response.data))
+      .then(res => {
+        localStorage.removeItem("user")
+        alert(res.data)
+        navigate("/")
+      })
+      .catch(err => console.log(err.response.data))
+  }
+  function insertNew(tipo) {
+    if (tipo === "entrada") {
+      navigate(`/nova-transacao/${tipo}`)
+    }
+    navigate(`/nova-transacao/${tipo}`)
   }
   return (
     <HomeContainer>
@@ -67,11 +73,11 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button data-test="new-income">
+        <button data-test="new-income" onClick={() => insertNew("entrada")} >
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button data-test="new-expense">
+        <button data-test="new-expense" onClick={() => insertNew("saida")}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>
@@ -149,5 +155,5 @@ const ButtonsContainer = styled.section`
 const Value = styled.div`
   font-size: 16px;
   text-align: right;
-  color: ${(props) => (props.color >= 0? "green" : "red")};
+  color: ${(props) => (props.color >= 0 ? "green" : "red")};
 `

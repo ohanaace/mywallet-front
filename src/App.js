@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import TransactionsPage from "./pages/TransactionPage"
-import UserProvider, { UserContext } from "./context/logInContext"
+import UserProvider from "./context/logInContext"
 
 
 export default function App() {

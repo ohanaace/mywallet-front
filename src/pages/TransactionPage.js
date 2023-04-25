@@ -15,9 +15,14 @@ export default function TransactionsPage() {
   const { onlineUser } = useContext(UserContext)
   const config = { headers: { Authorization: `Bearer ${onlineUser.token}` } }
   function registerEntry(e) {
+    let sentValue;
     e.preventDefault()
     setDisabled(true)
-    const body = { value: valueInput, description }
+    if(valueInput.includes(',')){
+    const fixedValue = valueInput.replace(",", ".")
+    sentValue = parseFloat(fixedValue).toFixed(2)
+    }
+    const body = { value: sentValue, description }
     axios.post(`${env.REACT_APP_API_URL}/nova-transacao/${tipo}`, body, config)
       .then(res => {
         alert("Operação adicionada com sucesso")

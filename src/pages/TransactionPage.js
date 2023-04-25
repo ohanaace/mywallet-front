@@ -18,11 +18,13 @@ export default function TransactionsPage() {
     let sentValue;
     e.preventDefault()
     setDisabled(true)
-    if(valueInput.includes(',')){
-    const fixedValue = valueInput.replace(",", ".")
-    sentValue = parseFloat(fixedValue).toFixed(2)
+    if (valueInput.includes(",")) {
+      const fixedValue = valueInput.replace(",", ".")
+      sentValue = parseFloat(fixedValue).toFixed(2)
     }
-    const body = { value: sentValue, description }
+    const newValue = valueInput.includes(",") ? sentValue : valueInput
+    console.log(newValue)
+    const body = { value: newValue, description }
     axios.post(`${env.REACT_APP_API_URL}/nova-transacao/${tipo}`, body, config)
       .then(res => {
         alert("Operação adicionada com sucesso")

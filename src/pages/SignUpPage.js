@@ -29,7 +29,8 @@ export default function SignUpPage() {
       })
       .catch(err => {
         alert(err.response.data)
-      setDisabled(false)})
+        setDisabled(false)
+      })
   }
   return (
     <SingUpContainer>
@@ -56,7 +57,9 @@ export default function SignUpPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          disabled={disabled} />
+          disabled={disabled}
+          minLength={3}
+        />
         <input placeholder="Confirme a senha"
           type="password"
           autocomplete="new-password"
@@ -64,7 +67,9 @@ export default function SignUpPage() {
           value={confPassword}
           onChange={(e) => setConfPassword(e.target.value)}
           required
-          disabled={disabled} />
+          disabled={disabled}
+          minLength={3}
+        />
         <button data-test="sign-up-submit" type="submit">
           {disabled ?
             <ThreeDots type="ThreeDots" color="#FFF" height={20} width={20} /> : "Cadastrar"}

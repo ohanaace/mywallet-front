@@ -112,14 +112,6 @@ const TransactionsContainer = styled.article`
   justify-content: space-between;
   position: relative;
 `
-const List = styled.ul`
-    height: 350px;
-    overflow: auto;
-    ::-webkit-scrollbar{
-      width: 0px;
-      background-color: transparent;
-    }
-`
 const TotalArticle = styled.article`
 background-color: white;
 height: 50px;
@@ -133,6 +125,14 @@ height: 50px;
     font-weight: 700;
     text-transform: uppercase;
   }
+`
+const List = styled.ul`
+    height: 350px;
+    overflow: auto;
+    ::-webkit-scrollbar{
+      width: 0px;
+      background-color: transparent;
+    }
 `
 const ButtonsContainer = styled.section`
   margin-top: 15px;

@@ -1,13 +1,37 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../context/logInContext"
+import axios from "axios"
+import env from "../env"
+import ItemContainer from "../components/ListItemContainer"
+import { useNavigate } from "react-router-dom"
+
 
 export default function HomePage() {
-  const [transactions, setTransactions] = useState([])
+  const [registers, setRegisters] = useState([])
+  const [amount, setAmount] = useState(0)
   const { onlineUser } = useContext(UserContext)
+  const navigate = useNavigate()
   console.log(onlineUser)
+  const config = { headers: { Authorization: `Bearer ${onlineUser.token}` } }
+  useEffect(() => {
+    axios.get(`${env.REACT_APP_API_URL}/home`, config)
+      .then(res => {
+        const { transactions, total } = res.data
+        console.log(res.data)
+        setRegisters(transactions)
+        setAmount(total)
+      })
+      .catch(err => {
+        if (err.statusCode === 409) {
+          alert("Faça login novamente")
+          navigate("/")
+        }
+        alert(err.response.data)
+      })
+  }, [])
   return (
     <HomeContainer>
       <Header data-test="user-name">
@@ -16,28 +40,19 @@ export default function HomePage() {
       </Header>
 
       <TransactionsContainer>
-        <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong data-test="registry-name">Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"} data-test="registry-amount">120,00</Value>
-          </ListItemContainer>
+        <List>
+          {registers.map((cash) => <ItemContainer
+            key={cash._id}
+            date={cash.date}
+            description={cash.description}
+            value={cash.value}
+            type={cash.type} />)}
+        </List>
 
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong data-test="registry-name">Salário</strong>
-            </div>
-            <Value color={"positivo"} data-test="registry-amount">3000,00</Value>
-          </ListItemContainer>
-        </ul>
-
-        <article>
+        <TotalArticle>
           <strong>Saldo</strong>
-          <Value color={"positivo"} data-test="total-amount" >2880,00</Value>
-        </article>
+          <Value color={"positivo"} data-test="total-amount" >{amount}</Value>
+        </TotalArticle>
       </TransactionsContainer>
 
 
@@ -79,14 +94,33 @@ const TransactionsContainer = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  article {
-    display: flex;
-    justify-content: space-between;   
-    strong {
-      font-weight: 700;
-      text-transform: uppercase;
+  position: relative;
+  ul{
+    
+  }  
+`
+const List = styled.ul`
+    height: 350px;
+    overflow: auto;
+    ::-webkit-scrollbar{
+      width: 0px;
+      background-color: transparent;
     }
+`
+const TotalArticle = styled.article`
+background-color: white;
+height: 50px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 390px;
+  strong {
+    font-weight: 700;
+    text-transform: uppercase;
   }
+  
 `
 const ButtonsContainer = styled.section`
   margin-top: 15px;
@@ -111,16 +145,4 @@ const Value = styled.div`
   font-size: 16px;
   text-align: right;
   color: ${(props) => (props.color === "positivo" ? "green" : "red")};
-`
-const ListItemContainer = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  color: #000000;
-  margin-right: 10px;
-  div span {
-    color: #c6c6c6;
-    margin-right: 10px;
-  }
 `

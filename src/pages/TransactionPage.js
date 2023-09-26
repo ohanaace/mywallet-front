@@ -23,7 +23,6 @@ export default function TransactionsPage() {
       sentValue = parseFloat(fixedValue).toFixed(2)
     }
     const newValue = valueInput.includes(",") ? sentValue : valueInput
-    console.log(newValue)
     const body = { value: newValue, description }
     axios.post(`${env.REACT_APP_API_URL}/nova-transacao/${tipo}`, body, config)
       .then(res => {

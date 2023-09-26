@@ -14,7 +14,6 @@ export default function HomePage() {
   const [amount, setAmount] = useState(0)
   const { onlineUser } = useContext(UserContext)
   const navigate = useNavigate()
-  console.log(onlineUser)
   const config = { headers: { Authorization: `Bearer ${onlineUser.token}` } }
   useEffect(() => {
     axios.get(`${env.REACT_APP_API_URL}/home`, config)
